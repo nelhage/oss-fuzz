@@ -16,7 +16,7 @@
 
 FROM gcr.io/oss-fuzz-base/base-builder
 MAINTAINER your@email.com
-RUN apt-get update && apt-get install -y make autoconf automake libtool cmake bison flex
+RUN apt-get update && apt-get --no-install-recommends install -y make autoconf automake libtool cmake bison flex pkg-config libltdl-dev
 RUN git clone --depth 1 https://github.com/madler/zlib
 RUN git clone --depth 1 https://gitlab.com/graphviz/graphviz
 WORKDIR graphviz

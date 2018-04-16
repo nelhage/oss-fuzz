@@ -22,13 +22,11 @@ make -j$(nproc) CFLAGS="$CFLAGS -fPIC"
 make install
 popd
 
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX:PATH=$WORK -DBUILD_SHARED_LIBS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-make -j$(nproc)
+sed -i -e 's,-lstdc++,,' cmd/edgepaint/Makefile.am
+./autogen.sh --enable-static --prefix "$WORK" --without-edgepaint
+env ASAN_OPTIONS=detect_leaks=0 make -j$(nproc)
 make install
 
-# The libs being linked here need to become static but right now the cmake build process isn't generating static libs so oh well
-$CXX $CXXFLAGS -std=c++11 -I$WORK/include -L$WORK/lib -rpath $WORK/lib/ \
-    $SRC/fuzzmain.cc -o $OUT/fuzzmain \
-    -lFuzzingEngine -lgvc -lcgraph -lcdt
+$CXX $CXXFLAGS -std=c++11 -I$WORK/include -L$WORK/lib \
+     $SRC/fuzzmain.cc -o $OUT/fuzzmain \
+     -lFuzzingEngine -Wl,-Bstatic -lgvc -lcgraph -lcdt -lz -lltdl -lpathplan -Wl,-Bdynamic
