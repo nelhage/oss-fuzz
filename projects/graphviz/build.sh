@@ -22,11 +22,12 @@ make -j$(nproc) CFLAGS="$CFLAGS -fPIC"
 make install
 popd
 
-sed -i -e 's,-lstdc++,,' cmd/edgepaint/Makefile.am
+
+patch -p1 < "$SRC/graphviz.patch"
 ./autogen.sh --enable-static --prefix "$WORK" --without-edgepaint
 env ASAN_OPTIONS=detect_leaks=0 make -j$(nproc)
 make install
 
-$CXX $CXXFLAGS -std=c++11 -I$WORK/include -L$WORK/lib \
+$CXX $CXXFLAGS -g -std=c++11 -I$WORK/include -L$WORK/lib \
      $SRC/fuzzmain.cc -o $OUT/fuzzmain \
      -lFuzzingEngine -Wl,-Bstatic -lgvc -lcgraph -lcdt -lz -lltdl -lpathplan -Wl,-Bdynamic

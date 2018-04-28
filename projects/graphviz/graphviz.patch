@@ -1,0 +1,35 @@
+diff --git a/cmd/edgepaint/Makefile.am b/cmd/edgepaint/Makefile.am
+index 5ed8a9cd6..350a78f74 100644
+--- a/cmd/edgepaint/Makefile.am
++++ b/cmd/edgepaint/Makefile.am
+@@ -31,7 +31,7 @@ edgepaint_LDADD = \
+ 	$(top_builddir)/lib/edgepaint/liblab_gamut.la \
+ 	$(top_builddir)/lib/cgraph/libcgraph.la \
+ 	$(top_builddir)/lib/cdt/libcdt.la \
+-	$(ANN_LIBS) -lstdc++ -lm
++	$(ANN_LIBS) -lm
+ 
+ edgepaint.1.pdf: $(srcdir)/edgepaint.1
+ 	- @GROFF@ -e -Tps -man -t $(srcdir)/edgepaint.1 | @PS2PDF@ - - >edgepaint.1.pdf
+diff --git a/lib/cgraph/id.c b/lib/cgraph/id.c
+index 694220ef3..d7af90163 100644
+--- a/lib/cgraph/id.c
++++ b/lib/cgraph/id.c
+@@ -2,7 +2,7 @@
+ /* vim:set shiftwidth=4 ts=8: */
+ 
+ /*************************************************************************
+- * Copyright (c) 2011 AT&T Intellectual Property 
++ * Copyright (c) 2011 AT&T Intellectual Property
+  * All rights reserved. This program and the accompanying materials
+  * are made available under the terms of the Eclipse Public License v1.0
+  * which accompanies this distribution, and is available at
+@@ -158,7 +158,7 @@ char *agnameof(void *obj)
+     }
+     if (AGTYPE(obj) != AGEDGE) {
+ 	sprintf(buf, "%c%ld", LOCALNAMEPREFIX, AGID(obj));
+-	rv = buf;
++	rv = agstrdup(g, buf);
+     }
+     else
+ 	rv = 0;

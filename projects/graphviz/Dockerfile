@@ -20,4 +20,4 @@ RUN apt-get update && apt-get --no-install-recommends install -y make autoconf a
 RUN git clone --depth 1 https://github.com/madler/zlib
 RUN git clone --depth 1 https://gitlab.com/graphviz/graphviz
 WORKDIR graphviz
-COPY build.sh fuzzmain.cc $SRC/
+COPY build.sh graphviz.patch fuzzmain.cc $SRC/
