@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "iapi.h"
+#include "gserrors.h"
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     static void *minst = nullptr;
@@ -56,8 +57,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     code = gsapi_run_string_end(minst, 0, &exit_code);
 
     if (code != 0) {
-        fprintf(stderr, "error occurred: %d\n", code);
-        abort();
+        if (code != gs_error_Quit) {
+            fprintf(stderr, "error occurred: %d\n", code);
+            abort();
+        }
         gsapi_exit(minst);
         gsapi_delete_instance(minst);
         minst = nullptr;
