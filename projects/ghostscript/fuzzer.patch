@@ -1,0 +1,16 @@
+diff --git a/base/gsalloc.c b/base/gsalloc.c
+index 110ad36e0..17778e198 100644
+--- a/base/gsalloc.c
++++ b/base/gsalloc.c
+@@ -1900,6 +1900,11 @@ alloc_obj(gs_ref_memory_t *mem, ulong lsize, gs_memory_type_ptr_t pstype,
+     obj_header_t *ptr;
+ 
+     if (lsize >= mem->large_size || (flags & ALLOC_IMMOVABLE)) {
++#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
++        if (lsize >= (1u << 20)) {
++            return 0;
++        }
++#endif
+         /*
+          * Give the object a clump all its own.  Note that this case does
+          * not occur if is_controlled is true.

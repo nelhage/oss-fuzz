@@ -16,6 +16,7 @@
 ################################################################################
 
 export LDFLAGS="$CXXFLAGS"
+patch -p1 < /src/fuzzer.patch
 ./autogen.sh
 ./configure
 make libgs -j "$(nproc)"

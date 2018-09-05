@@ -19,4 +19,4 @@ MAINTAINER alex.gaynor@gmail.com
 RUN apt-get update && apt-get install -y make autoconf automake libtool
 RUN git clone http://git.ghostscript.com/ghostpdl.git ghostscript
 WORKDIR ghostscript
-COPY build.sh ghostscript_fuzzer.cc $SRC/
+COPY fuzzer.patch build.sh ghostscript_fuzzer.cc $SRC/
