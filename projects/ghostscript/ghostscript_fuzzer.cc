@@ -11,8 +11,11 @@
 #include "iapi.h"
 #include "gserrors.h"
 
+const int MAX_CASES_PER_INSTANCE = 30000;
+
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     static void *minst = nullptr;
+    static int cases_run = 0;
     if (minst == nullptr) {
         int code = gsapi_new_instance(&minst, NULL);
         if (code < 0) {
@@ -72,11 +75,13 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         const char *input = " ) cvx stopped clear __state restore";
         gsapi_run_string_continue(minst, input, strlen(input), 0, &exit_code);
     }
+    ++cases_run;
     code = gsapi_run_string_end(minst, 0, &exit_code);
 
-    if (code != 0) {
+    if (code != 0 || cases_run > MAX_CASES_PER_INSTANCE) {
         gsapi_exit(minst);
         gsapi_delete_instance(minst);
+        cases_run = 0;
         minst = nullptr;
     }
 
