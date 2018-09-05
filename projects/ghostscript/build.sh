@@ -20,5 +20,5 @@ export LDFLAGS="$CXXFLAGS"
 ./configure
 make libgs -j "$(nproc)"
 
-$CXX $CXXFLAGS -std=c++11 -Ipsi/ $SRC/ghostscript_fuzzer.cc \
-    -o $OUT/ghostscript_fuzzer bin/gs.a -lFuzzingEngine
+$CXX $CXXFLAGS -std=c++11 -Ibase -Ipsi $SRC/ghostscript_fuzzer.cc \
+    -o $OUT/ghostscript_fuzzer "$WORK/lib/gs.a" -lFuzzingEngine
