@@ -27,6 +27,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
             "-dSAFER",
             "-sDEVICE=ppmraw",
             "-sstdout=/dev/null",
+            "-dOutputFile=/dev/null",
             nullptr,
         };
         code = gsapi_init_with_args(minst, sizeof(argv)/sizeof(*argv)-1, const_cast<char**>(argv));
