@@ -75,10 +75,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     code = gsapi_run_string_end(minst, 0, &exit_code);
 
     if (code != 0) {
-        if (code != gs_error_Quit && code != gs_error_NeedInput) {
-            fprintf(stderr, "error occurred: %d\n", code);
-            abort();
-        }
         gsapi_exit(minst);
         gsapi_delete_instance(minst);
         minst = nullptr;
