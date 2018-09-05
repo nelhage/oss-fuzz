@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <algorithm>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+#include <algorithm>
 
 #include "iapi.h"
 #include "gserrors.h"
@@ -37,6 +40,13 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         if (code != 0) {
             abort();
         }
+
+        int fd = open("/dev/null", O_RDONLY);
+        if (fd < 0) {
+            abort();
+        }
+        dup2(fd, 0);
+        close(fd);
     }
 
     int code, exit_code;
