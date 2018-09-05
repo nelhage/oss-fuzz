@@ -65,7 +65,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         }
         p = f;
     }
-    gsapi_run_string_continue(minst, ") cvx stopped pop", strlen(") stopped clear"), 0, &exit_code);
+    {
+        const char *input = " ) cvx stopped clear";
+        gsapi_run_string_continue(minst, input, strlen(input), 0, &exit_code);
+    }
     code = gsapi_run_string_end(minst, 0, &exit_code);
 
     if (code != 0) {
