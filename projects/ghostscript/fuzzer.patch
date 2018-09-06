@@ -1,16 +1,18 @@
 diff --git a/base/gsalloc.c b/base/gsalloc.c
-index 110ad36e0..17778e198 100644
+index 110ad36e0..1d73f3c06 100644
 --- a/base/gsalloc.c
 +++ b/base/gsalloc.c
-@@ -1900,6 +1900,11 @@ alloc_obj(gs_ref_memory_t *mem, ulong lsize, gs_memory_type_ptr_t pstype,
+@@ -1899,6 +1899,13 @@ alloc_obj(gs_ref_memory_t *mem, ulong lsize, gs_memory_type_ptr_t pstype,
+ {
      obj_header_t *ptr;
  
-     if (lsize >= mem->large_size || (flags & ALLOC_IMMOVABLE)) {
++
 +#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
-+        if (lsize >= (1u << 20)) {
-+            return 0;
-+        }
++    if (lsize >= (1u << 20) || mem->allocated > (1u << 23)) {
++        return 0;
++    }
 +#endif
++
+     if (lsize >= mem->large_size || (flags & ALLOC_IMMOVABLE)) {
          /*
           * Give the object a clump all its own.  Note that this case does
-          * not occur if is_controlled is true.
