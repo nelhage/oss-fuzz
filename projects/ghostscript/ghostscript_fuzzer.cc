@@ -11,7 +11,7 @@
 #include "iapi.h"
 #include "gserrors.h"
 
-const int MAX_CASES_PER_INSTANCE = 30000;
+const int MAX_CASES_PER_INSTANCE = 2000;
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     static void *minst = nullptr;
