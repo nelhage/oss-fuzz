@@ -55,7 +55,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     int code, exit_code;
     gsapi_run_string_begin(minst, 0, &exit_code);
     {
-        const char *input = "/__state save def (";
+        const char *input = "globaldict /__state save put (";
         gsapi_run_string_continue(minst, input, strlen(input), 0, &exit_code);
     }
     const uint8_t *p = data, *e = data+size;
@@ -72,7 +72,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         p = f;
     }
     {
-        const char *input = " ) cvx stopped clear __state restore";
+        const char *input = " ) cvx stopped clear globaldict /__state get restore";
         gsapi_run_string_continue(minst, input, strlen(input), 0, &exit_code);
     }
     ++cases_run;
