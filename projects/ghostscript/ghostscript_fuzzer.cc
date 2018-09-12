@@ -55,7 +55,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     int code, exit_code;
     gsapi_run_string_begin(minst, 0, &exit_code);
     {
-        const char *input = "globaldict /__state save put (";
+        const char *input = "nulldevice globaldict /__state save put newpath (";
         gsapi_run_string_continue(minst, input, strlen(input), 0, &exit_code);
     }
     const uint8_t *p = data, *e = data+size;

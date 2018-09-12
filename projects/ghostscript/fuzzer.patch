@@ -16,3 +16,18 @@ index 110ad36e0..1d73f3c06 100644
      if (lsize >= mem->large_size || (flags & ALLOC_IMMOVABLE)) {
          /*
           * Give the object a clump all its own.  Note that this case does
+diff --git a/base/gsicc_cache.c b/base/gsicc_cache.c
+index 68194e6a5..b82124be6 100644
+--- a/base/gsicc_cache.c
++++ b/base/gsicc_cache.c
+@@ -348,7 +348,9 @@ gsicc_set_link_data(gsicc_link_t *icc_link, void *link_handle,
+ static void
+ gsicc_link_free_contents(gsicc_link_t *icc_link)
+ {
+-    icc_link->procs.free_link(icc_link);
++    if (icc_link->procs.free_link) {
++        icc_link->procs.free_link(icc_link);
++    }
+ #ifndef MEMENTO_SQUEEZE_BUILD
+     gx_monitor_free(icc_link->lock);
+     icc_link->lock = NULL;
